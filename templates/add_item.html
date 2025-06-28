@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agregar Producto - Listas de Compras</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <div class="container small">
+        <div class="header success">
+            <h1 class="small">➕ Agregar Producto</h1>
+            <p>Añade un nuevo producto a tu lista</p>
+        </div>
+        
+        <div class="content large">
+            <a href="javascript:history.back()" class="back-btn">← Volver</a>
+            
+            <div class="list-info">
+                <div class="list-name">Lista: {{.ListTitle}}</div>
+                <div class="list-stats">Productos: {{.ItemCount}}</div>
+            </div>
+            
+            <div class="form">
+                <form method="POST" action="/lists/{{.ListID}}/items">
+                    <div class="form-group large">
+                        <label for="name">Nombre del producto: <span class="required">*</span></label>
+                        <input type="text" id="name" name="name" required 
+                               placeholder="Ej: Leche, Pan, Manzanas..."
+                               autofocus>
+                        <div class="help-text">Ingresa el nombre del producto que quieres agregar</div>
+                    </div>
+                    
+                    <div class="form-group large">
+                        <label for="quantity">Cantidad:</label>
+                        <input type="text" id="quantity" name="quantity" 
+                               placeholder="Ej: 2, 1kg, 500ml...">
+                        <div class="help-text">Opcional: especifica la cantidad deseada</div>
+                    </div>
+                    
+                    <div class="form-group large">
+                        <label for="notes">Notas adicionales:</label>
+                        <textarea id="notes" name="notes" rows="3" 
+                                  placeholder="Ej: Marca específica, preferencias, recordatorios..."></textarea>
+                        <div class="help-text">Opcional: información adicional sobre el producto</div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-success gradient large">➕ Agregar Producto</button>
+                        <a href="javascript:history.back()" class="btn btn-secondary large">Cancelar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Nueva Lista - Listas de Compras</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <div class="container small">
+        <div class="header">
+            <h1 class="small">➕ Crear Nueva Lista</h1>
+            <p>Organiza tus compras de manera sencilla</p>
+        </div>
+        
+        <div class="content large">
+            <a href="/" class="back-btn">← Volver a todas las listas</a>
+            
+            <div class="form">
+                <form method="POST" action="/create">
+                    <div class="form-group large">
+                        <label for="title">Nombre de la lista:</label>
+                        <input type="text" id="title" name="title" required 
+                               placeholder="Ej: Compras semanales, Fiesta de cumpleaños, etc."
+                               autofocus>
+                        <div class="help-text">Elige un nombre descriptivo para tu lista</div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary gradient large">Crear Lista</button>
+                        <a href="/" class="btn btn-secondary large">Cancelar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 

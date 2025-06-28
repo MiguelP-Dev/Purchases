@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Lista - Listas de Compras</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <div class="container small">
+        <div class="header info">
+            <h1 class="small">✏️ Editar Lista</h1>
+            <p>Modifica el título de tu lista de compras</p>
+        </div>
+        
+        <div class="content large">
+            <a href="javascript:history.back()" class="back-btn">← Volver</a>
+            
+            <div class="form">
+                <form method="POST" action="/lists/{{.ID}}/edit">
+                    <div class="form-group large">
+                        <label for="title">Título de la lista: <span class="required">*</span></label>
+                        <input type="text" id="title" name="title" required 
+                               placeholder="Ej: Compras del mes, Lista para la fiesta..."
+                               value="{{.Title}}" autofocus>
+                        <div class="help-text">Ingresa un título descriptivo para tu lista</div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-info gradient large">💾 Guardar Cambios</button>
+                        <a href="javascript:history.back()" class="btn btn-secondary large">Cancelar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Producto - Listas de Compras</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <div class="container tiny">
+        <div class="header warning">
+            <h1 class="small">✏️ Editar Producto</h1>
+            <p>Modifica el precio y lugar de compra</p>
+        </div>
+        
+        <div class="content large">
+            <a href="javascript:history.back()" class="back-btn">← Volver</a>
+            
+            <div class="product-info">
+                <div class="product-name">{{.ProductName}}</div>
+                <div class="product-status">Producto comprado</div>
+            </div>
+            
+            <div class="form">
+                <form method="POST" action="/items/{{.ID}}/edit">
+                    <div class="form-group large">
+                        <label for="price">Precio: <span class="required">*</span></label>
+                        <div class="price-input">
+                            <input type="number" id="price" name="price" required 
+                                   placeholder="0.00" step="0.01" min="0"
+                                   value="{{printf "%.2f" .Price}}"
+                                   autofocus>
+                        </div>
+                        <div class="help-text">Ingresa el precio pagado por el producto</div>
+                    </div>
+                    
+                    <div class="form-group large">
+                        <label for="place">Lugar de compra:</label>
+                        <input type="text" id="place" name="place" 
+                               placeholder="Ej: Supermercado, Farmacia, Tienda local..."
+                               value="{{.Place}}">
+                        <div class="help-text">Opcional: dónde compraste el producto</div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-warning gradient large">💾 Guardar Cambios</button>
+                        <a href="javascript:history.back()" class="btn btn-secondary large">Cancelar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listas de Compras</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🛒 Listas de Compras</h1>
+            <p>Organiza tus compras de manera sencilla y eficiente</p>
+        </div>
+        
+        <div class="content">
+            <a href="/create" class="create-btn">➕ Crear Nueva Lista</a>
+            
+            {{if .}}
+                <div class="lists-grid">
+                    {{range .}}
+                    <div class="list-card">
+                        <a href="/list/{{.ID}}" class="list-title">{{.Title}}</a>
+                        
+                        <div class="list-stats">
+                            <span>{{len .Items}} productos</span>
+                            <span class="date">{{.CreatedAt.Format "02/01/2006"}}</span>
+                        </div>
+                        
+                        {{if .Items}}
+                        <div class="progress-bar">
+                            {{$purchased := 0}}
+                            {{range .Items}}
+                                {{if .IsPurchased}}
+                                    {{$purchased = add $purchased 1}}
+                                {{end}}
+                            {{end}}
+                            {{$percentage := mul (div $purchased (len .Items)) 100}}
+                            <div class="progress-fill" style="width: {{$percentage}}%"></div>
+                        </div>
+                        <div class="list-stats">
+                            <span>{{$purchased}} de {{len .Items}} comprados</span>
+                        </div>
+                        {{end}}
+                        
+                        <div class="list-actions">
+                            <a href="/list/{{.ID}}" class="btn btn-primary">Ver</a>
+                            <form method="POST" action="/list/{{.ID}}/clone" style="display: inline;">
+                                <button type="submit" class="btn btn-success">Clonar</button>
+                            </form>
+                            <form method="POST" action="/list/{{.ID}}/delete" style="display: inline;" onsubmit="return confirm('¿Estás seguro de que quieres eliminar esta lista?')">
+                                <button type="submit" class="btn btn-danger">Eliminar</button>
+                            </form>
+                        </div>
+                    </div>
+                    {{end}}
+                </div>
+            {{else}}
+                <div class="empty-state">
+                    <h3>No hay listas de compras</h3>
+                    <p>Crea tu primera lista para empezar a organizar tus compras</p>
+                </div>
+            {{end}}
+        </div>
+    </div>
+</body>
+</html>

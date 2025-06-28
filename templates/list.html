@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{.Title}} - Lista de Compras</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <div class="container compact">
+        <div class="header">
+            <h1 class="medium">{{.Title}}</h1>
+            <div class="stats">
+                {{len .Items}} productos • Creada el {{.CreatedAt.Format "02/01/2006"}}
+            </div>
+            <div style="margin-top: 15px;">
+                <a href="/list/{{.ID}}/edit" class="btn btn-info small">✏️ Editar Nombre</a>
+            </div>
+        </div>
+        
+        <div class="content">
+            <a href="/" class="back-btn">← Volver a todas las listas</a>
+            
+            {{if .Items}}
+            <div class="progress-section">
+                {{$purchased := 0}}
+                {{$total := len .Items}}
+                {{range .Items}}
+                    {{if .IsPurchased}}
+                        {{$purchased = add $purchased 1}}
+                    {{end}}
+                {{end}}
+                {{$percentage := mul (div $purchased $total) 100}}
+                <div class="progress-text">{{$purchased}} de {{$total}} productos comprados</div>
+                <div class="progress-bar large">
+                    <div class="progress-fill" style="width: {{$percentage}}%"></div>
+                </div>
+            </div>
+            {{end}}
+            
+            <div class="add-item-form">
+                <h3>➕ Agregar Producto</h3>
+                <form method="POST" action="/list/{{.ID}}/items">
+                    <div class="form-group">
+                        <label for="product_name">Nombre del producto:</label>
+                        <input type="text" id="product_name" name="product_name" required placeholder="Ej: Leche, Pan, Manzanas...">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Agregar Producto</button>
+                </form>
+            </div>
+            
+            <div class="items-list">
+                {{if .Items}}
+                    {{range .Items}}
+                    <div class="item {{if .IsPurchased}}purchased{{end}}">
+                        <input type="checkbox" class="item-checkbox" 
+                               {{if .IsPurchased}}checked{{end}}
+                               onchange="toggleItem({{.ID}}, this.checked)">
+                        
+                        <div class="item-content">
+                            <div class="item-name">{{.ProductName}}</div>
+                            {{if .IsPurchased}}
+                            <div class="item-details">
+                                <span class="price">${{printf "%.2f" .Price}}</span>
+                                <span class="place">• {{.Place}}</span>
+                            </div>
+                            {{end}}
+                        </div>
+                        
+                        <div class="item-actions">
+                            {{if not .IsPurchased}}
+                            <a href="/items/{{.ID}}/mark-purchased" class="btn btn-success">Comprar</a>
+                            {{else}}
+                            <a href="/items/{{.ID}}/edit" class="btn btn-warning">✏️ Editar</a>
+                            {{end}}
+                            <form method="POST" action="/items/{{.ID}}/delete" style="display: inline;" onsubmit="return confirm('¿Eliminar este producto?')">
+                                <button type="submit" class="btn btn-danger">Eliminar</button>
+                            </form>
+                        </div>
+                    </div>
+                    {{end}}
+                {{else}}
+                    <div class="empty-items">
+                        <h3>No hay productos en esta lista</h3>
+                        <p>Agrega tu primer producto usando el formulario de arriba</p>
+                    </div>
+                {{end}}
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function toggleItem(itemId, isChecked) {
+            if (isChecked) {
+                // Si se está marcando como comprado, redirigir al formulario de precio
+                window.location.href = `/items/${itemId}/mark-purchased`;
+            } else {
+                // Si se está desmarcando, usar toggle normal
+                fetch(`/items/${itemId}/toggle`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                })
+                .then(response => {
+                    if (response.ok) {
+                        location.reload();
+                    } else {
+                        alert('Error al actualizar el producto');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Error al actualizar el producto');
+                });
+            }
+        }
+    </script>
+</body>
+</html>
