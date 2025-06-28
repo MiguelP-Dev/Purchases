@@ -5,8 +5,8 @@
 1. Listas de compra sencillas
     - **Productos como texto libre**(sin IDs, solo nombres)
     - **Marcar/Desmarcar** como comprado
-        * Al marcar: **precio obligatorio** (campo de texto, ej: "5.99").
-        * Lugar de compra **opcional** (default:"supermercado")
+        - Al marcar: **precio obligatorio** (campo de texto, ej: "5.99").
+        - Lugar de compra **opcional** (default:"supermercado")
 
 2. Clonar listas
     - Crear una nueva lista a partir de una existente con todos los productos **desmarcados**
