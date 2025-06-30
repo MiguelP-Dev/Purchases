@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"encoding/json"
 	"net/http"
 	"strconv"
 	"text/template"
@@ -219,62 +218,6 @@ func DeleteItemHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	http.Redirect(w, r, "/list/"+strconv.FormatUint(uint64(listID), 10), http.StatusSeeOther)
-}
-
-// UpdateItemHandler actualiza un item (precio y lugar cuando se marca como comprado)
-func UpdateItemHandler(w http.ResponseWriter, r *http.Request) {
-	db := r.Context().Value("db").(*gorm.DB)
-
-	if r.Method != "POST" {
-		http.Error(w, "Método no permitido", http.StatusMethodNotAllowed)
-		return
-	}
-
-	vars := mux.Vars(r)
-	itemID, err := strconv.Atoi(vars["id"])
-	if err != nil {
-		http.Error(w, "ID de item inválido", http.StatusBadRequest)
-		return
-	}
-
-	var item models.ListItem
-	if err := db.First(&item, itemID).Error; err != nil {
-		http.Error(w, "Item no encontrado", http.StatusNotFound)
-		return
-	}
-
-	r.ParseForm()
-	priceStr := r.FormValue("price")
-	place := r.FormValue("place")
-
-	if priceStr == "" {
-		http.Error(w, "El precio es obligatorio", http.StatusBadRequest)
-		return
-	}
-
-	price, err := strconv.ParseFloat(priceStr, 64)
-	if err != nil {
-		http.Error(w, "Precio inválido", http.StatusBadRequest)
-		return
-	}
-
-	item.Price = price
-	if place != "" {
-		item.Place = place
-	}
-	item.IsPurchased = true
-
-	if err := db.Save(&item).Error; err != nil {
-		http.Error(w, "Error al actualizar el item", http.StatusInternalServerError)
-		return
-	}
-
-	// Responder con JSON para AJAX
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(map[string]interface{}{
-		"success": true,
-		"item":    item,
-	})
 }
 
 // EditListHandler permite editar el título de una lista

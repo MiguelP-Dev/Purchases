@@ -96,24 +96,8 @@
                 // Si se está marcando como comprado, redirigir al formulario de precio
                 window.location.href = `/items/${itemId}/mark-purchased`;
             } else {
-                // Si se está desmarcando, usar toggle normal
-                fetch(`/items/${itemId}/toggle`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    }
-                })
-                .then(response => {
-                    if (response.ok) {
-                        location.reload();
-                    } else {
-                        alert('Error al actualizar el producto');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('Error al actualizar el producto');
-                });
+                // Si se está desmarcando, usar toggle normal que ahora redirige
+                window.location.href = `/items/${itemId}/toggle`;
             }
         }
     </script>

@@ -44,7 +44,8 @@ func ToggleItemHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	w.WriteHeader(http.StatusOK)
+	// Redirigir de vuelta a la lista después de desmarcar
+	http.Redirect(w, r, "/list/"+strconv.FormatUint(uint64(item.ShoppingListID), 10), http.StatusSeeOther)
 }
 
 // MarkItemAsPurchasedHandler marca un item como comprado con precio y lugar

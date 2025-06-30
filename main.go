@@ -66,7 +66,6 @@ func main() {
 	router.HandleFunc("/items/{id}/toggle", handlers.ToggleItemHandler).Methods("POST")
 	router.HandleFunc("/items/{id}/mark-purchased", handlers.MarkItemAsPurchasedHandler).Methods("GET", "POST")
 	router.HandleFunc("/items/{id}/edit", handlers.EditItemHandler).Methods("GET", "POST")
-	router.HandleFunc("/items/{id}/update", handlers.UpdateItemHandler).Methods("POST")
 
 	// Configurar servidor
 	port := ":8080"
